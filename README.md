@@ -1,26 +1,38 @@
-# flasgger marshmallow
+# flasgger marshmallow v2
 
-code to swagger document.
+Flasgger extension for marshmallow schema
 
+## Changes
 
-## Installing
+- [x] Accept unknown type field in schema
+- [x] Accept ModelSchema
+- [x] Use metadata to define the method return type
 
-Install and update using `pip`:
+## Installation
 
+```bash
+pip install -e .
 ```
-$ pip install -U Flasgger-Marshmallow
-```
 
+## Accepted Field Type
 
-## Data conversion process
-
-### request start data convert
-
-`| **http object** |`  ---**flask convert**--> `| **flask request** |` ---**flasgger-marshmallow(marshmallow load method)**--> `| **python dict** |`
-
-### response start data convert
-
-`| **python dict** |` ---**flasgger-marshmallow(marshmallow load method first, then dump method)**--> `| **flask response** |` ---**flask convert**--> `| **http object** |`     
+- `fields.String`, `fields.Str` -> `string`
+- `fields.Number`, `fields.Int` -> `number`
+- `fields.Boolean`, `fields.Bool` -> `boolean`
+- `fields.Nested` -> `object`
+- `fields.Dict` -> `object`
+- `fields.List` -> `array`
+- `fields.UUID` -> `string`
+- `fields.Integer` -> `number`
+- `fields.Decimal` -> `number`
+- `fields.Float` -> `number`
+- `fields.DateTime` -> `string`
+- `fields.Time` -> `string`
+- `fields.Date` -> `string`
+- `fields.TimeDelta` -> `number`
+- `fields.Url`, `fields.URL` -> `string`
+- `fields.Email` -> `string`
+- others -> use the `type` metadata
 
 ## A Simple Example
 
@@ -28,6 +40,7 @@ $ pip install -U Flasgger-Marshmallow
 import logging
 
 from flasgger import Swagger
+# use basePath   from flasgger_marshmallow import Swagger
 from flask import Flask, request
 from flask_restful import Api, Resource
 from marshmallow import Schema, fields
